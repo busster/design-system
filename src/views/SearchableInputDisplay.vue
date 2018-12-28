@@ -1,7 +1,7 @@
 <template>
   <div class="FormFieldDisplay">
     <div class="controls">
-      <span>Variation: {{ variation }}</span>
+      <!-- <span>Variation: {{ variation }}</span>
       <select v-model="variation">
         <option>default</option>
         <option>warning</option>
@@ -36,92 +36,62 @@
       </select>
       <br>
       <span>disabled: {{ disabled }}</span>
-      <input type="checkbox" v-model="disabled">
+      <input type="checkbox" v-model="disabled"> -->
     </div>
 
     <div class="tests">
-      <SbField :variation="variation" >
+      <div>
+        <SbSearchableInput v-model="selectionBasic" :options="optionsBasic"></SbSearchableInput>
+      </div>
+      <br>
+      <!-- <SbSearchableInput v-model="searchStringComplex" :options="optionsComplex" :keyValue="'id'">
+        <SbSearchOption slot-scope="{ option, index }">{{ index }} {{ option.displayName | i18 }}</SbSearchOption>
+      </SbSearchableInput> -->
+
+      <SbField>
         <SbLabel>My Label</SbLabel>
-        <SbTextInput
-          @keyup="iamkeyup"
-          @focus="iamfocus"
-          @blur="iamblur"
-          @change="iamchange"
-          :prepend="prependText"
-          :append="appendText"
-          :placeholder="placeholder"
-          :align="align"
-          :type="typeOfInput"
-          :disabled="disabled"
-          v-model="textModel"
-          :maxlength="10"
-        ></SbTextInput>
+        <SbSearchableInput v-model="selectionComplex" :options="optionsComplex" :keyValue="'id'">
+          <SbSearchOption slot-scope="{ option, index }">{{ index }} {{ option.displayName | i18 }}</SbSearchOption>
+        </SbSearchableInput>
         <SbFormHelperText>My helper text</SbFormHelperText>
       </SbField>
-
-      <SbField :variation="variation" >
-        <SbLabel>My Label</SbLabel>
-        <SbTextInput
-          @keyup="iamkeyup"
-          @focus="iamfocus"
-          @blur="iamblur"
-          @change="iamchange"
-          :prepend="prependText"
-          :append="appendText"
-          :placeholder="placeholder"
-          :align="align"
-          :type="typeOfInput"
-          :disabled="disabled"
-          v-model="textModel2"
-        ></SbTextInput>
-        <SbFormHelperText :counter="10">My helper text</SbFormHelperText>
-      </SbField>
-      <SbTextInput v-model="textModel3" :maxlength="5"></SbTextInput>
-      <SbTextInput v-model="textModel4"></SbTextInput>
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import SbSearchableInput from '@/components/SearchableInput/SearchableInput.vue'
+import SbSearchOption from '@/components/SearchableInput/SearchOption.vue'
+
 import SbField from '@/components/FormField/SbField.vue'
 import SbFormHelperText from '@/components/FormField/SbFormHelperText.vue'
 import SbLabel from '@/components/FormField/SbLabel.vue'
 import SbTextInput from '@/components/FormField/SbTextInput.vue'
 
 export default {
-  name: 'FormFieldDisplay',
+  name: 'SearchableInputDisplay',
   components: {
+    SbSearchableInput,
+    SbSearchOption,
     SbField,
     SbFormHelperText,
     SbLabel,
     SbTextInput,
   },
   data: () => ({
-    variation: 'default',
-    prependText: '',
-    appendText: '',
-    placeholder: '',
-    align: 'left',
-    typeOfInput: 'text',
-    disabled: false,
-    textModel: 'init',
-    textModel2: '',
-    textModel3: '',
-    textModel4: ''
+    selectionBasic: null,
+    selectionComplex: null,
+    optionsBasic: ['first', 'second', 'third', 'fourth', 'fifth'],
+    optionsComplex: [{id: 1, displayName: "first"}, {id: 2, displayName: "second"}, {id: 3, displayName: "third"}, {id: 4, displayName: "fourth"}, {id: 5, displayName: "fifth"}]
+
   }),
   methods: {
-    iamfocus (e) {
-      console.log('iamfocus: ', e)
-    },
-    iamblur (e) {
-      console.log('iamblur: ', e)
-    },
-    iamchange (e) {
-      console.log('iamchange: ', e)
-    },
-    iamkeyup (e) {
-      console.log('iamkeyup: ', e)
+    
+  },
+  filters: {
+    i18 (value) {
+      return value.toUpperCase()
     }
   }
 }
