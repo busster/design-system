@@ -143,12 +143,17 @@ export default {
     defaultField: Object.assign({}, sbFieldModel),
     fieldKey: 'defaultField'
   }),
+  watch: {
+    value (n, o) {
+      // this[this.fieldKey].value = n
+    }
+  },
   computed: {
     attrs () {
       const attrs = Object.assign({}, this.$attrs)
-      // console.log('attrs ', this.sbField.value)
+      console.log('attrs ')
       // delete attrs.value
-      attrs.value = this[this.fieldKey].value
+      attrs.value = this[this.fieldKey].value = this.value
       return attrs
     },
     listeners () {
@@ -187,8 +192,8 @@ export default {
   methods: {
     inputChanged (e) {
       const val = e.target.value
-      this[this.fieldKey].value = val
-      console.log('inputChanged ', this[this.fieldKey].value)
+      // this[this.fieldKey].value = val
+      // console.log('inputChanged ', this[this.fieldKey].value)
       this.$emit('input', val)
     },
     focusInput (e) {
@@ -201,18 +206,21 @@ export default {
       // __ob__
       this[this.fieldKey].value = this[this.fieldKey].value || this.value
       // this.$set('sbField.value', this.sbField.value || this.value)
-      console.log('setTextValue ', this[this.fieldKey].value)
+      // console.log('setTextValue ', this[this.fieldKey].value)
     },
     setCounterValue () {
       this[this.fieldKey].counter = this[this.fieldKey].counter || this.counter
       this[this.fieldKey].maxLength = this[this.fieldKey].maxLength || this.maxlength
+    },
+    clearInput () {
+      this[this.fieldKey].value = ''
     }
   },
 }
 </script>
 
-<style lang="scss" scoped>
-input {
+<style lang="scss">
+.sb-input {
   background: white;
   outline: none;
   border: 1px solid #48566e;
@@ -258,7 +266,7 @@ input::placeholder {
   .prepend, .append {
     color: #7788a5;
   }
-  input {
+  .sb-input {
     box-shadow: none;
     border: none;
     width: 100%;

@@ -40,18 +40,55 @@
     </div>
 
     <div class="tests">
-      <div>
-        <SbSearchableInput v-model="selectionBasic" :options="optionsBasic"></SbSearchableInput>
+
+      <!-- <div>
+        <SbSearchableInput v-model="selectionBasicA" :options="optionsBasic">
+          <SbSelectedSearchOption slot="selection" slot-scope="{ selection }" :value="selection | i18"></SbSelectedSearchOption>
+        </SbSearchableInput>
       </div>
-      <br>
-      <!-- <SbSearchableInput v-model="searchStringComplex" :options="optionsComplex" :keyValue="'id'">
-        <SbSearchOption slot-scope="{ option, index }">{{ index }} {{ option.displayName | i18 }}</SbSearchOption>
-      </SbSearchableInput> -->
+
+      <div class="spacer"></div>
+      
+      <div>
+        <SbSearchableInput v-model="selectionBasicB" :options="optionsBasic"></SbSearchableInput>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div>
+        <SbSearchableInput v-model="selectionBasicC" :options="optionsBasic"></SbSearchableInput>
+      </div>
+
+      <div class="spacer"></div> -->
+
+      <!-- <SbField>
+        <SbLabel>My Label</SbLabel>
+        <SbSearchableInput
+          v-model="selectionComplex"
+          :options="optionsComplex"
+          :keyValue="'id'"
+          @search="handleSearchComplex"
+        >
+          <SbSelectedSearchOption slot="selection" slot-scope="{ selection }" :value="selection && selection.displayName | i18"></SbSelectedSearchOption>
+          <SbSearchOption slot-scope="{ option, index }">{{ index }} {{ option.displayName | i18 }}</SbSearchOption>
+          <p slot="empty-options">I Couldn't Find Anything.</p>
+        </SbSearchableInput>
+        <SbFormHelperText>My helper text</SbFormHelperText>
+      </SbField> -->
 
       <SbField>
         <SbLabel>My Label</SbLabel>
-        <SbSearchableInput v-model="selectionComplex" :options="optionsComplex" :keyValue="'id'">
-          <SbSearchOption slot-scope="{ option, index }">{{ index }} {{ option.displayName | i18 }}</SbSearchOption>
+        <SbSearchableInput
+          v-model="selectionBasicB"
+          :options="optionsBasic"
+          @search="handleSearchBasic"
+          :loading="gatheringOptions"
+          :showSelectedOptions="true"
+        >
+          <SbSelectedSearchOption slot="selection" slot-scope="{ selection }" :value="selection"></SbSelectedSearchOption>
+          <SbSearchOption slot-scope="{ option, index }">{{ index }} {{ option | i18 }}</SbSearchOption>
+          <!-- <SbSearchOption slot-scope="{ option, index }">{{ index }} {{ option.displayName | i18 }}</SbSearchOption> -->
+          <!-- <p slot="empty-options">I Couldn't Find Anything.</p> -->
         </SbSearchableInput>
         <SbFormHelperText>My helper text</SbFormHelperText>
       </SbField>
@@ -61,8 +98,9 @@
 
 <script>
 // @ is an alias to /src
-import SbSearchableInput from '@/components/SearchableInput/SearchableInput.vue'
+import SbSearchableInput from '@/components/SearchableInput/SearchableInputMachine.vue'
 import SbSearchOption from '@/components/SearchableInput/SearchOption.vue'
+import SbSelectedSearchOption from '@/components/SearchableInput/SelectedSearchOption.vue'
 
 import SbField from '@/components/FormField/SbField.vue'
 import SbFormHelperText from '@/components/FormField/SbFormHelperText.vue'
@@ -78,20 +116,36 @@ export default {
     SbFormHelperText,
     SbLabel,
     SbTextInput,
+    SbSelectedSearchOption
   },
   data: () => ({
-    selectionBasic: null,
+    selectionBasicA: [],
+    selectionBasicB: null,
+    selectionBasicC: [],
     selectionComplex: null,
-    optionsBasic: ['first', 'second', 'third', 'fourth', 'fifth'],
-    optionsComplex: [{id: 1, displayName: "first"}, {id: 2, displayName: "second"}, {id: 3, displayName: "third"}, {id: 4, displayName: "fourth"}, {id: 5, displayName: "fifth"}]
+    optionsBasic: null,
+    optionsComplex: null,
+    gatheringOptions: false
 
   }),
   methods: {
-    
+    handleSearchBasic ({ searchTerm }) {
+      console.log(searchTerm)
+      this.gatheringOptions = true
+      setTimeout(() => {
+        if (searchTerm.length > 3) this.optionsBasic = ['first', 'second', 'third', 'fourth', 'fifth', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']
+        else this.optionsBasic = []
+        this.gatheringOptions = false
+      }, 1000)
+    },
+    handleSearchComplex ({ searchTerm }) {
+      if (searchTerm.length > 4) this.optionsComplex = [{id: 1, displayName: "first"}, {id: 2, displayName: "second"}, {id: 3, displayName: "third"}, {id: 4, displayName: "fourth"}, {id: 5, displayName: "fifth"}]
+      else this.optionsComplex = []
+    }
   },
   filters: {
     i18 (value) {
-      return value.toUpperCase()
+      return value && value.toUpperCase()
     }
   }
 }
@@ -110,9 +164,15 @@ export default {
     margin: 0 auto 5em;
   }
   .tests {
+    max-width: 300px;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     width: 100%;
+    .spacer {
+      margin: 1em 0;
+    }
   }
 }
 </style>

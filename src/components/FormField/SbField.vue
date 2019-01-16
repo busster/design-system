@@ -1,14 +1,18 @@
 <template>
   <div :class="classes">
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
 <script>
 import sbFieldModel from './sbFieldModel'
+import { cloneDeep } from 'lodash'
 
 /**
- * Input fields allows users to input and edit text.
+ * This is a wrapper component to be used with labels, inputs, and helper-text.
+ * This component is used to apply a uniform style across all of these components.
+ * For eg. if your field has an error because the input has an incorrect value, you can apply the `error` variation to the field.
+ * This would cause all of the contained elements to be styled in the error styles.
  */
 export default {
   name: 'SbField',
@@ -17,7 +21,7 @@ export default {
   props: {
     /**
      * Style variation to give additional meaning.
-     * `primary, secondary`
+     * `default|warning|error|valid`
      */
     variation: {
       type: String,
@@ -26,40 +30,23 @@ export default {
         return value.match(/(default|warning|error|valid)/)
       },
     },
-    value: {
-      default: null
-    }
   },
   provide () {
     return {
       sbField: this.sbField,
     }
   },
-  created () {
-    this.sbField.value = this.value
-  },
   data: () => ({
-    sbField: Object.assign({}, sbFieldModel)
+    sbField: cloneDeep(sbFieldModel)
   }),
-  updated () {
-    // debugger
-  },
-  watch: {
-    fieldValue (newValue) {
-      this.$emit('input', newValue)
-    }
-  },
   computed: {
-    fieldValue () {
-      return this.sbField.value
-    },
     classes () {
       return [
         'sb-form-field',
         this.variation
       ]
     }
-  }
+  },
 }
 </script>
 

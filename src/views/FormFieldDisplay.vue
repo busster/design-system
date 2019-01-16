@@ -37,10 +37,11 @@
       <br>
       <span>disabled: {{ disabled }}</span>
       <input type="checkbox" v-model="disabled">
+      <button @click="reset">rest</button>
     </div>
 
     <div class="tests">
-      <SbField :variation="variation" >
+      <!-- <SbField :variation="variation" >
         <SbLabel>My Label</SbLabel>
         <SbTextInput
           @keyup="iamkeyup"
@@ -57,7 +58,7 @@
           :maxlength="10"
         ></SbTextInput>
         <SbFormHelperText>My helper text</SbFormHelperText>
-      </SbField>
+      </SbField> -->
 
       <SbField :variation="variation" >
         <SbLabel>My Label</SbLabel>
@@ -76,8 +77,8 @@
         ></SbTextInput>
         <SbFormHelperText :counter="10">My helper text</SbFormHelperText>
       </SbField>
-      <SbTextInput v-model="textModel3" :maxlength="5"></SbTextInput>
-      <SbTextInput v-model="textModel4"></SbTextInput>
+      <!-- <SbTextInput v-model="textModel3" :maxlength="5"></SbTextInput> -->
+      <!-- <SbTextInput v-model="textModel4"></SbTextInput> -->
     </div>
   </div>
 </template>
@@ -112,16 +113,19 @@ export default {
   }),
   methods: {
     iamfocus (e) {
-      console.log('iamfocus: ', e)
+      // console.log('iamfocus: ', e)
     },
     iamblur (e) {
-      console.log('iamblur: ', e)
+      // console.log('iamblur: ', e)
     },
     iamchange (e) {
-      console.log('iamchange: ', e)
+      // console.log('iamchange: ', e)
     },
     iamkeyup (e) {
-      console.log('iamkeyup: ', e)
+      // console.log('iamkeyup: ', e)
+    },
+    reset () {
+      this.textModel2 = ''
     }
   }
 }

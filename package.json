@@ -7,6 +7,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@tweenjs/tween.js": "^17.2.0",
+    "ag-grid-community": "^19.1.4",
+    "ag-grid-vue": "^19.1.2",
+    "lodash": "^4.17.11",
+    "popper.js": "^1.14.6",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

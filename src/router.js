@@ -4,6 +4,9 @@ import Home from './views/Home.vue'
 
 import FormFieldDisplay from './views/FormFieldDisplay.vue'
 import SearchableInputDisplay from './views/SearchableInputDisplay.vue'
+import TableDisplay from './views/TableDisplay.vue'
+import TooltipDisplay from './views/TooltipDisplay.vue'
+import ResizeObserverDisplay from './views/ResizeObserverDisplay.vue'
 
 Vue.use(Router)
 
@@ -31,6 +34,21 @@ export default new Router({
       path: '/searchable-input',
       name: 'searchable-input',
       component: SearchableInputDisplay
+    },
+    {
+      path: '/table-display',
+      name: 'table-display',
+      component: TableDisplay
+    },
+    {
+      path: '/tooltip-display',
+      name: 'tooltip-display',
+      component: TooltipDisplay
+    },
+    {
+      path: '/resize-observer-display',
+      name: 'resize-observer-display',
+      component: ResizeObserverDisplay
     }
   ]
 })
